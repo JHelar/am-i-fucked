@@ -1,12 +1,44 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <h1>Is train <input type="number" v-model="trainNumber" debounce="500"> fucked?</h1>
+    <Announcement v-for="announcement in announcements" :announcement="announcement" :key="announcement.activityId"/>
   </div>
 </template>
+<script lang="ts">
+import Vue from 'vue';
+import { getTrainAnnouncement, TrainAnnouncement } from './services/trafikverket';
+import Announcement from './components/Announcement.vue';
+
+interface AppData {
+    announcements: TrainAnnouncement[],
+    trainNumber: number | null
+}
+
+export default Vue.extend({
+    data(): AppData {
+        return {
+            announcements: [],
+            trainNumber: null
+        }
+    },
+    watch: {
+        trainNumber: function(value: number) {
+            this.fetchAnnouncements();
+        }
+    },
+    methods: {
+        fetchAnnouncements(){
+            getTrainAnnouncement(this.trainNumber!, 100)
+                .then(announcements => this.announcements = announcements)
+                .catch(console.error)
+        }
+    },
+    components: {
+        Announcement
+    }
+})
+</script>
+
 
 <style lang="scss">
 #app {
