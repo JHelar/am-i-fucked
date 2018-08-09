@@ -10,33 +10,33 @@ import { getTrainAnnouncement, TrainAnnouncement } from './services/trafikverket
 import Announcement from './components/Announcement.vue';
 
 interface AppData {
-    announcements: TrainAnnouncement[],
-    trainNumber: number | null
+    announcements: TrainAnnouncement[];
+    trainNumber: number | null;
 }
 
 export default Vue.extend({
     data(): AppData {
         return {
             announcements: [],
-            trainNumber: null
-        }
+            trainNumber: null,
+        };
     },
     watch: {
-        trainNumber: function(value: number) {
+        trainNumber(value: number) {
             this.fetchAnnouncements();
-        }
+        },
     },
     methods: {
-        fetchAnnouncements(){
+        fetchAnnouncements() {
             getTrainAnnouncement(this.trainNumber!, 100)
-                .then(announcements => this.announcements = announcements)
-                .catch(console.error)
-        }
+                .then((announcements) => this.announcements = announcements)
+                .catch(console.error);
+        },
     },
     components: {
-        Announcement
-    }
-})
+        Announcement,
+    },
+});
 </script>
 
 

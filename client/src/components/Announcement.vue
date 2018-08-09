@@ -9,7 +9,7 @@
     </div>
 </template>
 <script lang="ts">
-import Vue from 'vue'
+import Vue from 'vue';
 import { TrainAnnouncement, getTrainStation, TrainStation } from '../services/trafikverket';
 
 interface AnnouncementData {
@@ -20,20 +20,20 @@ export default Vue.extend({
     props: {
         announcement: {
             type: Object
-        }
+        ,}
     },
-    data(): AnnouncementData{
+    data(): AnnouncementData {
         return {
             trainStation: null
         }
     },
-    created(){
-        this.fetchTrainStation();
+    created() {
+        this.fetchTrainStation()
     },
     methods: {
-        fetchTrainStation(){
+        fetchTrainStation() {
             getTrainStation((this.announcement as TrainAnnouncement).LocationSignature)
-                .then((stations: TrainStation[]) => this.trainStation = stations[0])
+                .then((stations: TrainStation) => this.trainStation = stations)
                 .catch(console.error)
         }
     }
